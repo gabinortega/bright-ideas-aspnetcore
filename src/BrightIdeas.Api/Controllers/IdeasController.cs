@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BrightIdeas.Data;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BrightIdeas.Api.Controllers
 {
@@ -6,10 +7,17 @@ namespace BrightIdeas.Api.Controllers
     [Route("api/[controller]")]
     public class IdeasController : ControllerBase
     {
+        private readonly IDbRepository _repository;
+
+        public IdeasController(IDbRepository repository)
+        {
+            _repository = repository;
+        }
+
         [HttpGet]
         public ActionResult<string> Get()
         {
-            return Ok("Hola !!!");
+            return Ok($"Hola !!! {_repository.GetIdeaByIdAsync(1).Result?.Title}");
         }
     }
 }
